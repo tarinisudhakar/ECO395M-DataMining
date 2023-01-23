@@ -1,0 +1,232 @@
+---
+title: "Exercise 1"
+author: "Tarini Sudhakar"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(include = FALSE)
+library(tidyverse)
+library(rsample)
+library(caret)
+library(foreach)
+library(modelr)
+```
+
+## Data visualization: flights at ABIA
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Wrangling the Olympics
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+##  K-nearest neighbors: cars
+```{r knn}
+sclass <- read.csv("~/Documents/Coding/ECO395M-DataMining/data/sclass.csv")
+
+#Filter for 350
+car350 <- sclass %>%
+  filter(trim == 350)
+
+#Filter for 65 AMG
+car65AMG <- sclass %>%
+  filter(trim == '65 AMG')
+
+set.seed(1720104007)
+
+#Split train/test for 350
+car350_split = initial_split(car350, prop=0.8)
+car350_train = training(car350_split)
+car350_test  = testing(car350_split)
+```
+
+## K=2
+```{r 350k=2}
+knn_model = knnreg(price ~ mileage, data=car350_train, k = 2) 
+knn_pred = function(x) {
+  predict(knn_model, newdata=data.frame(mileage=x))
+}
+
+p_base = ggplot(data = car350) + 
+  geom_point(mapping = aes(x = mileage, y = price), color='darkgrey') + 
+  theme_bw(base_size=10) 
+p_base + stat_function(fun=knn_pred, color='red', size=1.5, n=1001)
+
+modelr::rmse(knn_model, car350_test)
+
+```
+
+
+## K=5
+```{r 350k=5}
+knn_model = knnreg(price ~ mileage, data=car350_train, k = 5) 
+knn_pred = function(x) {
+  predict(knn_model, newdata=data.frame(mileage=x))
+}
+
+p_base + stat_function(fun=knn_pred, color='red', size=1.5, n=1001)
+
+modelr::rmse(knn_model, car350_test)
+
+```
+
+
+## K=10
+```{r 350k=10}
+knn_model = knnreg(price ~ mileage, data=car350_train, k = 10) 
+knn_pred = function(x) {
+  predict(knn_model, newdata=data.frame(mileage=x))
+}
+
+p_base + stat_function(fun=knn_pred, color='red', size=1.5, n=1001)
+
+modelr::rmse(knn_model, car350_test)
+
+```
+
+
+## K=20
+```{r 350k=20}
+knn_model = knnreg(price ~ mileage, data=car350_train, k = 20) 
+knn_pred = function(x) {
+  predict(knn_model, newdata=data.frame(mileage=x))
+}
+
+p_base + stat_function(fun=knn_pred, color='red', size=1.5, n=1001)
+
+modelr::rmse(knn_model, car350_test)
+
+```
+
+## K=30
+```{r 350k=30}
+knn_model = knnreg(price ~ mileage, data=car350_train, k = 30) 
+knn_pred = function(x) {
+  predict(knn_model, newdata=data.frame(mileage=x))
+}
+
+p_base + stat_function(fun=knn_pred, color='red', size=1.5, n=1001)
+
+modelr::rmse(knn_model, car350_test)
+
+```
+
+
+## K=50
+```{r 350k=50}
+knn_model = knnreg(price ~ mileage, data=car350_train, k = 50) 
+knn_pred = function(x) {
+  predict(knn_model, newdata=data.frame(mileage=x))
+}
+
+p_base + stat_function(fun=knn_pred, color='red', size=1.5, n=1001)
+
+modelr::rmse(knn_model, car350_test)
+```
+
+
+## K=70
+```{r 350k=70}
+knn_model = knnreg(price ~ mileage, data=car350_train, k = 70) 
+knn_pred = function(x) {
+  predict(knn_model, newdata=data.frame(mileage=x))
+}
+
+p_base + stat_function(fun=knn_pred, color='red', size=1.5, n=1001)
+
+modelr::rmse(knn_model, car350_test)
+```
+
+
+## K=100
+```{r 350k=100}
+knn_model = knnreg(price ~ mileage, data=car350_train, k = 100) 
+knn_pred = function(x) {
+  predict(knn_model, newdata=data.frame(mileage=x))
+}
+
+p_base + stat_function(fun=knn_pred, color='red', size=1.5, n=1001)
+
+modelr::rmse(knn_model, car350_test)
+```
+
+## K=150
+```{r 350k=150}
+knn_model = knnreg(price ~ mileage, data=car350_train, k = 150) 
+knn_pred = function(x) {
+  predict(knn_model, newdata=data.frame(mileage=x))
+}
+
+p_base + stat_function(fun=knn_pred, color='red', size=1.5, n=1001)
+
+modelr::rmse(knn_model, car350_test)
+```
+
+## K=300
+```{r 350k=300}
+knn_model = knnreg(price ~ mileage, data=car350_train, k = 300) 
+knn_pred = function(x) {
+  predict(knn_model, newdata=data.frame(mileage=x))
+}
+
+p_base + stat_function(fun=knn_pred, color='red', size=1.5, n=1001)
+
+modelr::rmse(knn_model, car350_test)
+```
+
+## K-nearest neighbors: test  
+
+```{r, fig.width=4, fig.asp = 0.6, fig.align='center', echo=FALSE, message=FALSE, warning=FALSE}
+library(FNN)
+
+N = nrow(car350)
+N_train = floor(0.8*N)
+train_ind = sort(sample.int(N, N_train, replace=FALSE))
+
+D_all = car350; D_all$set = 'test'; D_all$set[train_ind] = 'train'
+D_train = car350[train_ind,]
+D_test = car350[-train_ind,]
+
+D_test = arrange(D_test, mileage)
+y_train = D_train$price
+y_test = D_test$price
+X_train = data.frame(mileage=jitter(D_train$mileage))
+X_test = data.frame(mileage=D_test$mileage)
+
+k_grid = unique(round(exp(seq(log(80), log(2), length=80))))
+rmse_grid_out = foreach(k = k_grid, .combine='c') %do% {
+  knn_model = knn.reg(X_train, X_test, y_train, k = k)
+  rmse(y_test, knn_model$pred)
+}
+
+rmse_grid_out = data.frame(K = k_grid, RMSE = rmse_grid_out)
+
+p_out = ggplot(data=rmse_grid_out) + 
+  theme_bw(base_size = 10) + 
+  geom_path(aes(x=K, y=RMSE, color='testset'), size=0.5) + 
+  scale_x_continuous(trans=revlog_trans(base = 10)) + 
+  geom_hline(yintercept=lm2_rmse, color='blue', size=1) + 
+  geom_hline(yintercept=lm1_rmse, color='red', size=1)
+
+ind_best = which.min(rmse_grid_out$RMSE)
+k_best = k_grid[ind_best]
+
+p_out + geom_path(data=rmse_grid_in, aes(x=K, y=RMSE, color='trainset'),size=0.5) + 
+  ylim(700, 2000) +
+  scale_colour_manual(name="RMSE",
+    values=c(testset="black", trainset="grey")) + 
+  geom_vline(xintercept=k_best, color='darkgreen', size=1)
+```
+
